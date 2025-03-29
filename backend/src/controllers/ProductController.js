@@ -1,4 +1,6 @@
 const Product = require('../models/productModel');
+const MessageConstants = require('../utils/constants/MessageConstants');
+const ResponseDTO = require('../utils/response/ResponseDTO');
 
 class ProductController {
     async getAllProduct(req, res) {
@@ -38,12 +40,14 @@ class ProductController {
         const { id } = req.params;
         try {
             const product = await Product.getProductById(id);
+
             if (!product) {
-                return res.status(404).json({ message: "Product not found" });
+                return res.status(404).json(ResponseDTO.error(MessageConstants.PRODUCT_NOT_FOUND, 404));
             }
-            res.status(200).json(product);
+
+            res.status(200).json(ResponseDTO.success(product, MessageConstants.PRODUCT_FETCH_SUCCESS));
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json(ResponseDTO.error(MessageConstants.ERROR_OCCURRED, 500));
         }
     }
 
