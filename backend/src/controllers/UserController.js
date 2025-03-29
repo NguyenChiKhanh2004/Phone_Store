@@ -92,6 +92,7 @@ class UserController {
     async getProfile(req, res) {
         try {
             const token = req.cookies.accessToken;
+            // const user = await User.getProfile(token);
             const user = await User.getProfile(token);
             if (!user) {
                 return res.status(404).json({ message: "User not found" });
