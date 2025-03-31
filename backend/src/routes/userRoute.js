@@ -9,7 +9,7 @@ const AuthMid = require('../middlewares/middleware');
 router.get('/',AuthMid.authMiddleware, userController.getAllUsers);
 
 // [GET] localhost:3000/user
-router.get('/:id',AuthMid.authMiddleware ,userController.getUsersById);
+router.get('/:id' ,userController.getUsersById);
 
 // Đăng ký
 // [POST] localhost:300/user
@@ -19,10 +19,10 @@ router.post('/', userController.createUsers)
 //[POST] localhost:3000/user/login
 router.post('/login', userController.login)
 
-// [GET] localhost:3000/user/login
-router.get('/login', (req, res) => {
-    res.render('login');
-});
+// // [GET] localhost:3000/user/login
+// router.get('/login', (req, res) => {
+//     res.render('login');
+// });
 
 // Cập nhật user
 // [PUT] localhost:3000/user/:id
@@ -34,6 +34,6 @@ router.delete('/:id',AuthMid.authMiddleware, userController.deleteUsers);
 
 //lấy thông tin user
 //[GET] localhost:3000/user/profile
-router.get('/profile', AuthMid.authMiddleware, userController.getProfile);
+// router.get('/profile', userController.getProfile);
 
 module.exports = router;

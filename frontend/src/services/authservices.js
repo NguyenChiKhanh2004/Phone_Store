@@ -27,12 +27,22 @@ export const Register = async (phone, password, email, full_name) => {
   
 };
 
-export const getProfile = async () => {
+// export const getProfile = async () => {
+//   try {
+//     const response = await api.get("/user/profile");
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching profile", error);
+//     throw error;
+//   }
+// }
+
+export const getUsersById = async (id) => {
   try {
-    const response = await api.get("/user/profile");
+    const response = await api.get(`/user/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching profile", error);
+    console.error("Error fetching user by ID", error);
     throw error;
   }
 }
@@ -40,5 +50,6 @@ export const getProfile = async () => {
 export default {
   login,
   Register,
-  getProfile
+  // getProfile,
+  getUsersById
 };

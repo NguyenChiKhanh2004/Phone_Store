@@ -1,5 +1,7 @@
 const pool = require('../utils/connectDB');
 const bcrypt = require('bcrypt');
+const auth = require('../utils/auth');
+
 
 const getAll = async () => {
     const query = 'SELECT * FROM users'
@@ -54,11 +56,12 @@ const getUsersById = async (id) => {
     return rows[0];
 };
 
-const getProfile = async (token) => {
-    const decoded = auth.verifyToken(token);
-    const userData = await userModel.getProfile(decoded.id);
-    return userData;
-}
+// const getProfile = async (token) => {
+//     const decoded = auth.verifyToken(token);
+//     // const userData = await userModel.getProfile(decoded.id);
+//     const userData = await checkuser(decoded.username);
+//     return userData;
+// }
 
 module.exports = {
     getUsersById,
@@ -67,5 +70,5 @@ module.exports = {
     checkuser,
     updateUsers,
     deleteUsers,
-    getProfile
+    // getProfile
 };
