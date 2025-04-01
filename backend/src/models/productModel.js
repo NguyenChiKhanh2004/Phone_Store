@@ -43,10 +43,98 @@ const createProduct = async (newProduct) => {
 };
 
 const getProductById = async (id) => {
-    const query = 'SELECT * FROM products WHERE id = ?';
+    const query = `
+        SELECT 
+            p.*,
+            v.id AS variant_id,
+            v.color,
+            v.ram,
+            v.rom,
+            v.sku,
+            v.price AS variant_price,
+            v.quantity,
+            v.stock_status,
+            v.image_url AS variant_image_url,
+            v.created_at AS variant_created_at,
+            v.updated_at AS variant_updated_at
+        FROM products p
+        LEFT JOIN product_variants v ON p.id = v.product_id
+        WHERE p.id = ?;
+    `;
     const [rows] = await pool.execute(query, [id]);
-    return rows[0];
+    if (!rows.length) return null;
+
+    // Lấy thông tin sản phẩm từ dòng đầu tiên
+    const product = {
+        id: rows[0].id,
+        name: rows[0].name,
+        slug: rows[0].slug,
+        description: rows[0].description,
+        price: rows[0].price,
+        brand_id: rows[0].brand_id,
+        image_url: rows[0].image_url,
+        status: rows[0].status,
+        operating_system: rows[0].operating_system,
+        languages: rows[0].languages,
+        display_type: rows[0].display_type,
+        display_color: rows[0].display_color,
+        display_standard: rows[0].display_standard,
+        display_size: rows[0].display_size,
+        display_resolution: rows[0].display_resolution,
+        touch_technology: rows[0].touch_technology,
+        rear_camera: rows[0].rear_camera,
+        front_camera: rows[0].front_camera,
+        video_recording: rows[0].video_recording,
+        flash: rows[0].flash,
+        camera_features: rows[0].camera_features,
+        cpu_speed: rows[0].cpu_speed,
+        cpu_cores: rows[0].cpu_cores,
+        chipset: rows[0].chipset,
+        gpu: rows[0].gpu,
+        ram: rows[0].ram,
+        internal_storage: rows[0].internal_storage,
+        expandable_storage: rows[0].expandable_storage,
+        design: rows[0].design,
+        dimensions: rows[0].dimensions,
+        weight: rows[0].weight,
+        battery_type: rows[0].battery_type,
+        battery_capacity: rows[0].battery_capacity,
+        fast_charging: rows[0].fast_charging,
+        wireless_charging: rows[0].wireless_charging,
+        sim_type: rows[0].sim_type,
+        sim_slot: rows[0].sim_slot,
+        wifi: rows[0].wifi,
+        gps: rows[0].gps,
+        bluetooth: rows[0].bluetooth,
+        gprs_edge: rows[0].gprs_edge,
+        phone_jack: rows[0].phone_jack,
+        nfc: rows[0].nfc,
+        usb: rows[0].usb,
+        charging_port: rows[0].charging_port,
+        created_at: rows[0].created_at,
+        updated_at: rows[0].updated_at
+    };
+
+    // Tách dữ liệu biến thể (loại bỏ trường hợp không có biến thể)
+    const variants = rows
+        .filter(row => row.variant_id !== null)
+        .map(row => ({
+            id: row.variant_id,
+            color: row.color,
+            ram: row.ram,
+            rom: row.rom,
+            sku: row.sku,
+            price: row.variant_price,
+            quantity: row.quantity,
+            stock_status: row.stock_status,
+            image_url: row.variant_image_url,
+            created_at: row.variant_created_at,
+            updated_at: row.variant_updated_at
+        }));
+
+    return { product, variants };
 };
+
 
 const updateProduct = async (id, updatedProduct) => {
     const {

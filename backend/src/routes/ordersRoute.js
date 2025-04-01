@@ -22,4 +22,8 @@ router.delete('/:id', OrdersController.deleteOrders);
 // [GET] localhost:3000/orders/:id
 router.get('/:id', OrdersController.getOrdersByUserId);
 
+// Tạo order detail
+// [POST] localhost:3000/orders/createOrderDetail
+router.post('/createOrderDetail', OrdersController.createOrderDetail);
+
 module.exports = router;

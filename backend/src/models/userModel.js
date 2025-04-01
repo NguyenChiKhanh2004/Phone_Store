@@ -44,11 +44,12 @@ const updateUsers = async (id, updatedUser) => {
     return rows;
 };
 
-const deleteUsers = async () => {
-    const query = " DELETE FROM users WHERE id=?"
-    const [rows, fields] = await pool.execute(query);
+const deleteUsers = async (id) => {
+    const query = "DELETE FROM users WHERE id = ?";
+    const [rows, fields] = await pool.execute(query, [id]);
     return rows;
 }
+
 
 const getUsersById = async (id) => {
     const query = 'SELECT * FROM users WHERE id = ?';

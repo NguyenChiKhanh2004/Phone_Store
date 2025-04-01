@@ -50,6 +50,32 @@ class OrdersController {
             res.status(500).json({ message: error.message });
         }
     }
+    async createOrderDetail(req, res) {
+        const { userId, shippingAddress, billingAddress, notes, itemsJson, paymentMethod } = req.body;
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!userId || !shippingAddress || !billingAddress || !notes || !itemsJson || !paymentMethod) {
+            return res.status(400).json({ message: "Thiếu thông tin đơn hàng" });
+        }
+
+        try {
+            // Gọi Orders Model để tạo đơn hàng
+            const result = await Orders.createOrderDetail(
+                userId,
+                shippingAddress,
+                billingAddress,
+                notes,
+                itemsJson,  // Truyền trực tiếp nếu đây đã là JSON hợp lệ
+                paymentMethod
+            );
+
+            res.status(200).json(result);
+        } catch (error) {
+            console.error("Lỗi khi tạo đơn hàng:", error);
+            res.status(500).json({ message: "Lỗi server", error: error.message });
+        }
+    }
+
 }
 
 module.exports = new OrdersController();

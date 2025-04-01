@@ -92,10 +92,24 @@ const getOrdersByUserId = async (id) => {
     return rows;
 };
 
+const createOrderDetail = async (userId, shippingAddress, billingAddress, notes, itemsJson, paymentMethod) => {
+    const query = `CALL InsertCompleteOrder(?, ?, ?, ?, ?, ?);`;
+    const [results] = await pool.execute(query, [
+        userId, 
+        shippingAddress, 
+        billingAddress, 
+        notes, 
+        itemsJson,  // Không cần stringify nếu đã là JSON hợp lệ
+        paymentMethod
+    ]);
+    return results;
+};
+
 module.exports = {
     getAll,
     createOrders,
     updateOrders,
     deleteOrders,
-    getOrdersByUserId
+    getOrdersByUserId,
+    createOrderDetail
 };
