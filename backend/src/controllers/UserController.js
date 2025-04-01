@@ -113,30 +113,19 @@ class UserController {
             res.status(500).json({ message: error.message });
         }
     };
-    // async getProfile(req, res) {
-    //     try {
-    //         const token = req.cookies.accessToken;
-    //         console.log(token);
-    //         console.log("day la toke" + token)
-    //         const user = await User.getProfile(token);
-    //         if (!user) {
-    //             return res.status(404).json({ message: "User not found" });
-    //         }
-    //         res.status(200).json(user);
-    //     } catch (error) {
-    //         res.status(500).json({ message: error.message });
-    //     }
-    // }
-    // async getProfile(req, res) {
-    //     try {
-    //         const user = req.user; // Lấy thông tin user từ middleware
-    //         if (!user) {
-    //             return res.status(404).json({ message: "User not found" });
-    //         }
-    //         res.status(200).json({ message: "Profile fetched successfully", user });
-    //     } catch (error) {
-    //         res.status(500).json({ message: error.message });
-    //     }
-    // }
+    async getProfile(req, res) {
+        try {
+            const token = req.cookies.accessToken;
+            console.log(token);
+            console.log("day la toke" + token)
+            const user = await User.getProfile(token);
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 module.exports = new UserController;

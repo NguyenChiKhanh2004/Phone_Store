@@ -34,6 +34,6 @@ router.delete('/:id',AuthMid.authMiddleware, userController.deleteUsers);
 
 //lấy thông tin user
 //[GET] localhost:3000/user/profile
-// router.get('/profile', userController.getProfile);
+router.get('/profile', userController.getProfile);
 
 module.exports = router;

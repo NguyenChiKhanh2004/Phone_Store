@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCart, setCart } from '../../utils/cartStorage';
 import { setCheckoutItems } from '../../utils/checkOutStorage';
 import { useNavigate } from 'react-router-dom';
+import ProtectedLink from '../../routes/ProtectedLink';
 
 export default function CartPage() {
     const [cartItems, setCartItems] = useState([]);
@@ -14,10 +15,10 @@ export default function CartPage() {
         setCartItems(updatedCart);
     }, []);
 
-    // Tính tổng tiền của các sản phẩm đã được chọn
+    // Tính tổng tiền của các sản phẩm đã được chọn và làm tròn đến 2 chữ số thập phân
     const totalPrice = cartItems.reduce((acc, item) => {
-        return acc + (item.selected ? item.price * item.quantity : 0);
-    }, 0);
+        return acc + (item.selected ? Number(item.price) * item.quantity : 0);
+    }, 0).toFixed(2);
 
     // Xóa sản phẩm khỏi giỏ hàng dựa theo variant_id
     const handleRemoveItem = (variantId) => {
@@ -74,32 +75,30 @@ export default function CartPage() {
 
     return (
         <div className="max-w-5xl mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Shopping Cart</h1>
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Giỏ hàng</h1>
             {cartItems.length === 0 ? (
-                <p className="text-gray-600">Your cart is empty.</p>
+                <p className="text-gray-600">Giỏ hàng trống</p>
             ) : (
                 <div className="bg-white shadow-md rounded-lg overflow-hidden">
                     <table className="min-w-full">
                         <thead className="bg-gray-100">
                             <tr>
                                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                    Select
+                                    Chọn
                                 </th>
                                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                    Product
+                                    Sản phẩm
                                 </th>
                                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                    Price
+                                    Giá
                                 </th>
                                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                    Quantity
+                                    Số lượng
                                 </th>
                                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                    Total
+                                    Tổng tiền
                                 </th>
-                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                    Action
-                                </th>
+                                
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
@@ -120,7 +119,9 @@ export default function CartPage() {
                                         />
                                         <span className="text-gray-700">{item.name}</span>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-700">${item.price}</td>
+                                    <td className="px-6 py-4 text-gray-700">
+                                        ${Number(item.price).toFixed(2)}
+                                    </td>
                                     <td className="px-6 py-4 text-gray-700 flex items-center">
                                         <button
                                             onClick={() => handleDecreaseQuantity(item.variant_id)}
@@ -137,14 +138,14 @@ export default function CartPage() {
                                         </button>
                                     </td>
                                     <td className="px-6 py-4 text-gray-700">
-                                        ${item.price * item.quantity}
+                                        ${(Number(item.price) * item.quantity).toFixed(2)}
                                     </td>
                                     <td className="px-6 py-4">
                                         <button
                                             onClick={() => handleRemoveItem(item.variant_id)}
                                             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
                                         >
-                                            Remove
+                                            Xóa
                                         </button>
                                     </td>
                                 </tr>
@@ -159,7 +160,7 @@ export default function CartPage() {
                             onClick={handlePlaceOrder}
                             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
                         >
-                            Đặt hàng
+                            <ProtectedLink to="/checkout">Đặt hàng</ProtectedLink>
                         </button>
                     </div>
                 </div>

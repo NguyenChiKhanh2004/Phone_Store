@@ -53,7 +53,7 @@ const Header = () => {
           </Link>
           {user ? (
             <div className="flex items-center space-x-4">
-              <span className="font-semibold">{user.name}</span>
+              <span className="font-semibold">{user.full_name}</span>
               <button
                 onClick={handleLogout}
                 className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition duration-200"

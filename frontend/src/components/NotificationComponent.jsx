@@ -21,14 +21,14 @@ const ModalNotification = ({ isOpen, onClose }) => {
         </button>
 
         <div className="text-center">
-          <h2 className="text-red-600 text-2xl font-bold">Smember</h2>
+          <h2 className="text-red-600 text-2xl font-bold">Thành viên</h2>
           <img
             src="https://cdn-icons-png.flaticon.com/512/1904/1904425.png"
             alt="logo"
             className="w-16 mx-auto my-2"
           />
           <p className="text-gray-600">
-            Vui lòng đăng nhập tài khoản Smember để xem ưu đãi và thanh toán dễ dàng hơn.
+            Vui lòng đăng nhập tài khoản Thành Viên để xem ưu đãi và thanh toán dễ dàng hơn.
           </p>
           <div className="mt-4 flex justify-center gap-4">
             <button

@@ -57,12 +57,11 @@ const getUsersById = async (id) => {
     return rows[0];
 };
 
-// const getProfile = async (token) => {
-//     const decoded = auth.verifyToken(token);
-//     // const userData = await userModel.getProfile(decoded.id);
-//     const userData = await checkuser(decoded.username);
-//     return userData;
-// }
+const getProfile = async (token) => {
+    const decoded = auth.verifyToken(token);
+    const userData = await getUsersById(decoded.id);
+    return userData;
+}
 
 module.exports = {
     getUsersById,
@@ -71,5 +70,5 @@ module.exports = {
     checkuser,
     updateUsers,
     deleteUsers,
-    // getProfile
+    getProfile
 };
