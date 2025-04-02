@@ -16,6 +16,8 @@ export default function AnimatedLogin() {
     e.preventDefault();
     setError("");
     try {
+
+      // test
       const user = await authServiceLogin(phone, password);
       console.log("User data:", user.role, user.id);
       const userProfile = await getUsersById(user.id);
