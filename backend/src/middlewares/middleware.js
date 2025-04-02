@@ -1,16 +1,14 @@
 const auth = require('../utils/auth');
 
-const authMiddleware = (req,res,next)=>{
-    //const token = req.headers['authorization']?.split(' ')[1];
+const authMiddleware = (req, res, next) => {
     const token = req.cookies.accessToken;
-    //"authorization = bearer ..."
-    // const = req.cookies.accessToken;
-    // console.log(token);
-    if (!token){
+    console.log("Token:", token);
+    if (!token) {
         return res.status(401).json("Access denied");
     }
     const user = auth.verifyToken(token);
-    if (!user){ // token het han hoac sai key
+    if (!user) {
+        console.error("Invalid token");
         return res.status(403).json("Invalid token");
     }
     req.user = user;

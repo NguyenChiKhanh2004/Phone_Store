@@ -37,8 +37,19 @@ export const getProfile = async () => {
   }
 }
 
+export const getUsersById = async (id) => {
+  try {
+    const response = await api.get(`/user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user by ID", error);
+    throw error;
+  }
+}
+
 export default {
   login,
   Register,
-  getProfile
+  getProfile,
+  getUsersById
 };

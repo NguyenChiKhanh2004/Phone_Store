@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as authServiceLogin } from "../services/authservices";
 import { useAuth } from "../contexts/AuthContext";
-import { getProfile } from "../services/authservices";
+// import { getProfile } from "../services/authservices";
+import { getUsersById } from "../services/authservices";
 
 export default function AnimatedLogin() {
   const [phone, setPhone] = useState("");
@@ -15,18 +16,19 @@ export default function AnimatedLogin() {
     e.preventDefault();
     setError("");
     try {
-      // Kiểm tra xem số điện thoại có hợp lệ không (có thể thêm logic kiểm tra ở đây nếu cần)
       // Gọi API đăng nhập (backend sẽ đặt token vào cookie)
       await authServiceLogin(phone, password);
 
-      // Sau khi đăng nhập thành công, gọi API /user/profile để lấy thông tin user
-      const userProfile = await getProfile();
+      // Gọi hàm đăng nhập từ authservices  
+      //testahahahaahaha
+      const user = await authServiceLogin(phone, password);
+      console.log("User data:", user.role, user.id);
+      const userProfile = await getUsersById(user.id);
+      // const userProfile = await getProfile();
+      // console.log("User profile:", userProfile);
       console.log("User profile:", userProfile);
-      // Cập nhật AuthContext với thông tin user nhận được
       login(userProfile);
-
-      // Điều hướng dựa trên role (giả sử userProfile.role có chứa role của người dùng)
-      if (userProfile.role === "admin") {
+      if (user.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/");

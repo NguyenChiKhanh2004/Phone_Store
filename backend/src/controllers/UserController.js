@@ -13,32 +13,56 @@ class UserController {
         }
     }
 
-    async login (req, res) {
-        const {phone, password} = req.body;
+
+    async login(req, res) {
+        const { phone, password } = req.body;
         const user = await User.checkuser(phone);
         if (user.length === 0) {
-            return res.status(401).json({ message: 'Tài khoản không tồn tại' });
+            return res.redirect('/auth/login');
         }
         const isMatch = await bcrypt.compare(password, user[0].password);
         if (!isMatch) {
-            return res.status(401).json({ message: 'Sai mật khẩu' });
+            return res.redirect('/auth/login');
         }
         // đăng nhập thành công
-        const currentUser ={
-            name: user[0].full_name,
-            username: user[0].phone,
-            email: user[0].email,
-            role:'admin',
+        const currentUser = {
+            username: user[0].USERNAME,
+            email: user[0].EMAIL,
+            role: 'admin',
         }
         const accessToken = auth.generateAccessToKen(currentUser);
         res.cookie('accessToken', accessToken, {
             httpOnly: true
-        });
-        res.json({ message: 'Đăng nhập thành công' });
+        }
+        );
+        res.json({ message: 'Đăng nhập thành công', role: user[0].role, id: user[0].id });
     }
-    
+
+    // async login (req, res) {
+    //     const {phone, password} = req.body;
+    //     const user = await User.checkuser(phone);
+    //     if (user.length === 0) {
+    //         return res.status(401).json({ message: 'Tài khoản không tồn tại' });
+    //     }
+    //     const isMatch = await bcrypt.compare(password, user[0].password);
+    //     if (!isMatch) {
+    //         return res.status(401).json({ message: 'Sai mật khẩu' });
+    //     }
+    //     const currentUser ={
+    //         id: user[0].id,
+    //         name: user[0].full_name,
+    //         username: user[0].phone,
+    //         email: user[0].email,
+    //         role:'admin',
+    //     }
+    //     const accessToken = auth.generateAccessToKen(currentUser);
+    //     res.cookie('accessToken', accessToken, {
+    //         httpOnly: true
+    //     });
+    //     res.json({ message: 'Đăng nhập thành công', role: user[0].role, id: user[0].id}); 
+    // } 
     async createUsers(req, res) {
-        try{
+        try {
             const newUsers = req.body;
             console.log(newUsers);
             const Users = await User.createUsers(newUsers);
@@ -62,7 +86,7 @@ class UserController {
             res.status(500).json({ message: error.message });
         }
     }
-    
+
     async deleteUsers(req, res) {
         try {
             const { id } = req.params;
@@ -77,7 +101,7 @@ class UserController {
         }
     }
 
-    async getUsersById (req, res) {
+    async getUsersById(req, res) {
         try {
             const { id } = req.params;
             const user = await User.getUsersById(id);
@@ -92,6 +116,8 @@ class UserController {
     async getProfile(req, res) {
         try {
             const token = req.cookies.accessToken;
+            console.log(token);
+            console.log("day la toke" + token)
             const user = await User.getProfile(token);
             if (!user) {
                 return res.status(404).json({ message: "User not found" });
