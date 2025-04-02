@@ -4,22 +4,24 @@ import ModalNotification from "../components/NotificationComponent";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-function ProtectedLink({ to, children }) {
+function ProtectedLink({ to, children, ...rest }) {
     const { isAuthenticated } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const location = useLocation();
     const shouldShowModal = !isAuthenticated
         && location.pathname !== "/login"
         && location.pathname !== "/register";
+
     const handleClick = (e) => {
         if (!isAuthenticated && shouldShowModal) {
             e.preventDefault();
             setShowModal(true);
         }
     };
+
     return (
         <>
-            <Link to={to} onClick={handleClick}>
+            <Link to={to} onClick={handleClick} {...rest}>
                 {children}
             </Link>
 

@@ -29,7 +29,7 @@ export default function CartPage() {
 
     // Thay đổi trạng thái chọn của sản phẩm
     const handleCheckboxChange = (variantId) => {
-        const updatedCart = cartItems.map(item => 
+        const updatedCart = cartItems.map(item =>
             item.variant_id === variantId ? { ...item, selected: !item.selected } : item
         );
         setCartItems(updatedCart);
@@ -63,7 +63,7 @@ export default function CartPage() {
     const handlePlaceOrder = () => {
         // Lấy các sản phẩm đã được chọn
         const itemsForCheckout = cartItems.filter(item => item.selected);
-        if(itemsForCheckout.length === 0) {
+        if (itemsForCheckout.length === 0) {
             alert("Vui lòng chọn ít nhất 1 sản phẩm để đặt hàng.");
             return;
         }
@@ -98,15 +98,15 @@ export default function CartPage() {
                                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
                                     Tổng tiền
                                 </th>
-                                
+
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
                             {cartItems.map((item) => (
                                 <tr key={item.variant_id}>
                                     <td className="px-6 py-4 text-center">
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             checked={item.selected || false}
                                             onChange={() => handleCheckboxChange(item.variant_id)}
                                         />
@@ -156,12 +156,19 @@ export default function CartPage() {
                         <div className="text-xl font-bold text-gray-800">
                             Total: ${totalPrice}
                         </div>
-                        <button
+                        {/* <button
                             onClick={handlePlaceOrder}
                             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
                         >
                             <ProtectedLink to="/checkout">Đặt hàng</ProtectedLink>
-                        </button>
+                        </button> */}
+                        <ProtectedLink
+                            to="/checkout"
+                            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200"
+                        >
+                            Đặt hàng
+                        </ProtectedLink>
+
                     </div>
                 </div>
             )}
