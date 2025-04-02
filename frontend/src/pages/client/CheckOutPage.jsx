@@ -14,7 +14,7 @@ export default function CheckOutPage() {
     paymentMethod: "shipcod", // Mặc định là shipcod
     itemsJson: [], // Sẽ được cập nhật từ checkoutStorage
   });
-
+  // tesst
   // Khi component mount, lấy dữ liệu từ checkoutStorage và cập nhật vào formData
   useEffect(() => {
     const checkoutItems = getCheckoutItems();
