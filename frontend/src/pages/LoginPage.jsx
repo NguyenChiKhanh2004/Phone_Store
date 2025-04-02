@@ -16,6 +16,8 @@ export default function AnimatedLogin() {
     e.preventDefault();
     setError("");
     try {
+      // Gọi API đăng nhập (backend sẽ đặt token vào cookie)
+      await authServiceLogin(phone, password);
 
       // Gọi hàm đăng nhập từ authservices  
       //testahahahaahaha
