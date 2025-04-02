@@ -15,6 +15,7 @@ export default function AnimatedLogin() {
     e.preventDefault();
     setError("");
     try {
+      // Kiểm tra xem số điện thoại có hợp lệ không (có thể thêm logic kiểm tra ở đây nếu cần)
       // Gọi API đăng nhập (backend sẽ đặt token vào cookie)
       await authServiceLogin(phone, password);
 
