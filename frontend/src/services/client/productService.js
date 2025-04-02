@@ -20,3 +20,23 @@ export const getProductById = async (id) => {
     throw error;
   }
 };
+
+export const searchProducts = async (name) => {
+  try {
+    const response = await api.post('/product/search', { name });
+    return response.data;
+  } catch (error) {
+    console.error('Error searching products:', error);
+    throw error;
+  }
+};
+
+export const getProductsByBrand = async (brand) => {
+  try {
+    const response = await api.post('/product/brand', { brand });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products by brand:', error);
+    throw error;
+  }
+};

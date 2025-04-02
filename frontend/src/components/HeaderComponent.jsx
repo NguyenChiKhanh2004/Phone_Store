@@ -1,22 +1,29 @@
-import { Link } from "react-router-dom";
+// Header.jsx
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import ProtectedLink from "../routes/ProtectedLink";
+
 
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
   };
 
+  const handleSearch = () => {
+    // Chuyển hướng đến trang Home với query parameter search
+    navigate(`/?search=${encodeURIComponent(searchTerm)}`);
+  };
+
   return (
     <header className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
-
         {/* Logo */}
         <Link to="/" className="text-3xl font-extrabold tracking-wide">
           📱 PhoneStore
@@ -28,9 +35,14 @@ const Header = () => {
             <input
               type="text"
               placeholder="Tìm kiếm sản phẩm..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full p-3 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
-            <button className="absolute right-2 top-2 bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+            <button
+              onClick={handleSearch}
+              className="absolute right-2 top-2 bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600"
+            >
               Tìm
             </button>
           </div>

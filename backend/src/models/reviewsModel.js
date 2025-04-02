@@ -1,7 +1,20 @@
 const pool = require('../utils/connectDB');
 
 const getAll = async () => {
-    const query = 'SELECT * FROM reviews';
+    const query = `SELECT 
+    reviews.id,
+    products.name as product_name,
+    reviews.product_id,
+    users.full_name as user_name,
+    reviews.title,
+    reviews.comment,
+    reviews.rating,
+    reviews.is_verified_purchase,
+    reviews.created_at,
+    reviews.updated_at
+    FROM reviews 
+    LEFT JOIN users on reviews.user_id = users.id
+    left join products on reviews.product_id = products.id`;
     const [rows, fields] = await pool.execute(query);
     return rows;
 };

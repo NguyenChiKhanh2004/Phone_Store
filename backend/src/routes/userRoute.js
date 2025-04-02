@@ -19,6 +19,10 @@ router.post('/', userController.createUsers)
 //[POST] localhost:3000/user/login
 router.post('/login', userController.login)
 
+// Kiểm tra đăng nhập
+// [GET] localhost:3000/user/check-auth
+router.get('/check/check-auth', AuthMid.checkAuth);
+
 // // [GET] localhost:3000/user/login
 // router.get('/login', (req, res) => {
 //     res.render('login');

@@ -1,7 +1,24 @@
 const pool = require('../utils/connectDB');
 
 const getAll = async () => {
-    const query = 'SELECT * FROM product_variants';
+    const query = `
+        SELECT 
+            product_variants.id,
+            product_variants.product_id, 
+            product_variants.color, 
+            product_variants.ram, 
+            product_variants.rom, 
+            product_variants.sku, 
+            product_variants.price, 
+            product_variants.quantity, 
+            product_variants.stock_status, 
+            product_variants.image_url, 
+            product_variants.created_at, 
+            product_variants.updated_at, 
+            products.name AS product_name  -- Thêm cột tên sản phẩm từ bảng products
+        FROM product_variants
+        LEFT JOIN products ON product_variants.product_id = products.id
+    `;
     const [rows] = await pool.execute(query);
     return rows;
 };
@@ -37,7 +54,24 @@ const updateVariant = async (id, updatedVariant) => {
 };
 
 const getProductById = async (id) => {
-    const query = 'SELECT * FROM product_variants WHERE id = ?';
+    const query = `
+        SELECT 
+            product_variants.id,
+            product_variants.product_id, 
+            product_variants.color, 
+            product_variants.ram, 
+            product_variants.rom, 
+            product_variants.sku, 
+            product_variants.price, 
+            product_variants.quantity, 
+            product_variants.stock_status, 
+            product_variants.image_url, 
+            product_variants.created_at, 
+            product_variants.updated_at, 
+            products.name AS product_name  -- Thêm cột tên sản phẩm từ bảng products
+        FROM product_variants
+        LEFT JOIN products ON product_variants.product_id = products.id
+        WHERE product_variants.id = ?`;
     const [rows] = await pool.execute(query, [id]);
     return rows[0];
 };
