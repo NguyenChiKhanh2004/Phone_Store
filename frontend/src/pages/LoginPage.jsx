@@ -18,6 +18,7 @@ export default function AnimatedLogin() {
     try {
 
       // Gọi hàm đăng nhập từ authservices  
+      //testahahahaahaha
       const user = await authServiceLogin(phone, password);
       console.log("User data:", user.role, user.id);
       const userProfile = await getUsersById(user.id);
