@@ -1,9 +1,8 @@
 // Header.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaRocketchat } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
-import ProtectedLink from "../routes/ProtectedLink";
 
 
 const Header = () => {
@@ -43,7 +42,7 @@ const Header = () => {
               onClick={handleSearch}
               className="absolute right-2 top-2 bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600"
             >
-              Tìm
+              Tìm kiếm
             </button>
           </div>
         </div>
@@ -51,7 +50,8 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-8 text-lg font-medium">
             <li>
-              <ProtectedLink to="/dashboard">Sản phẩm</ProtectedLink>
+              {/* <ProtectedLink to="/dashboard">Sản phẩm</ProtectedLink> */}
+              <FaRocketchat size={30} className="inline-block mr-2 text-white" />
             </li>
           </ul>
         </nav>
