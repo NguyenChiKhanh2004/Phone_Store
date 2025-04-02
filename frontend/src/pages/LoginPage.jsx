@@ -17,6 +17,7 @@ export default function AnimatedLogin() {
     setError("");
     try {
 
+      // check phone number
       // test
       const user = await authServiceLogin(phone, password);
       console.log("User data:", user.role, user.id);
