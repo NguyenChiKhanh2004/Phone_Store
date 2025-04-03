@@ -9,3 +9,13 @@ export const createOrderDetail = async (orderData) => {
         throw error;
     }
 };
+
+export const getOrderHistoryByUserId = async (userId) => {
+    try {
+        const response = await api.get(`/orders/history/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching order history:", error.response?.data || error.message);
+        throw error;
+    }
+}

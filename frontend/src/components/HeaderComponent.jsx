@@ -1,45 +1,13 @@
 // Header.jsx
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaUser, FaRocketchat } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
-import ChatBox from "./ChatBoxComponent"; // Điều chỉnh đường dẫn cho phù hợp
-
-
 
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-
-
-  const [showChatBox, setShowChatBox] = useState(false);
-  const chatBoxRef = useRef(null);
-  // Toggle ChatBox khi bấm vào biểu tượng chat
-  const toggleChatBox = () => {
-    setShowChatBox((prev) => !prev);
-  };
-  // Đóng ChatBox khi click ra ngoài
-  // Đóng ChatBox khi click ra ngoài
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (chatBoxRef.current && !chatBoxRef.current.contains(event.target)) {
-        setShowChatBox(false);
-      }
-    };
-
-    if (showChatBox) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showChatBox]);
-
-
 
   const handleLogout = () => {
     logout();
@@ -80,22 +48,10 @@ const Header = () => {
 
         <nav>
           <ul className="flex space-x-8 text-lg font-medium">
-            <li style={{ position: "relative" }}>
-              {/* Biểu tượng chat */}
-              <FaRocketchat
-                size={30}
-                className="inline-block mr-2 text-white cursor-pointer"
-                onClick={toggleChatBox}
-              />
-              {/* Hiển thị ChatBox khi showChatBox === true */}
-              {showChatBox && (
-                <div
-                  ref={chatBoxRef}
-                  style={{ position: "absolute", bottom: "-320px", right: "0", zIndex: "1000" }}
-                >
-                   <ChatBox />
-                </div>
-              )}
+            <li>
+              {/* <ProtectedLink to="/dashboard">Sản phẩm</ProtectedLink> */}
+              {/* <FaRocketchat size={30} className="inline-block mr-2 text-white" /> */}
+              <Link to="/history">Lịch sử mua hàng</Link>
             </li>
           </ul>
         </nav>

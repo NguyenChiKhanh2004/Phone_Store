@@ -116,6 +116,15 @@ class OrdersController {
             res.status(500).json({ message: "Lỗi server", error: error.message });
         }
     }
+    async getOrderHistoryByUserId(req, res) {
+        const { userId } = req.params;
+        try {
+            const orderHistory = await Orders.getOrderHistoryByUserId(userId);
+            res.status(200).json(orderHistory);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
     
 
 }

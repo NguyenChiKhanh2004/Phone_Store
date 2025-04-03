@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { getUser } from "../utils/userStoage"; // Import hàm lấy user
+import { getUser } from "../utils/userStoage";
 
 const ChatBox = () => {
     const [message, setMessage] = useState("");
@@ -28,7 +28,7 @@ const ChatBox = () => {
         if (!message.trim()) return;
         await axios.post("http://localhost:3000/chat/sendMessage", {
             message,
-            customerId: fullName, // ID giả lập
+            customerId: fullName,
         });
 
         setChatHistory((prev) => [...prev, { sender: "user", text: message }]);

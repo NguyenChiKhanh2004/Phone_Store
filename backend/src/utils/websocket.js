@@ -16,7 +16,7 @@ setInterval(() => {
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify(global.latestReply));
-                console.log("Gửi tin nhắn phản hồi:", global.latestReply);
+                // console.log("Gửi tin nhắn phản hồi:", global.latestReply);
             }
         });
         global.latestReply = null;

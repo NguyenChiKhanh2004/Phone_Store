@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { createOrderDetail } from "../../services/client/orderService";
 import { getCheckoutItems } from "../../utils/checkOutStorage";
+import { getUser } from "../../utils/userStoage";
+
+const user = getUser();
+    const userID = user?.id; // Lấy userId từ localStorage hoặc mặc định là 1
 
 export default function CheckOutPage() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
-    userId: 1,
+    userId: userID,
     shippingAddress: "",
     billingAddress: "",
     notes: "",
@@ -66,7 +70,7 @@ export default function CheckOutPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Checkout Page</h1>
+      <h1 className="text-2xl font-bold mb-4">Trang thông tin đặt hàng</h1>
       <form className="space-y-4">
         <div>
           <label className="block text-gray-700">Địa chỉ giao hàng</label>
