@@ -26,4 +26,8 @@ router.get('/:id', OrdersController.getOrdersByUserId);
 // [POST] localhost:3000/orders/createOrderDetail
 router.post('/createOrderDetail', OrdersController.createOrderDetail);
 
+// Lấy lịch sử đơn hàng theo user_id
+// [GET] localhost:3000/orders/history/:userId
+router.get('/history/:userId', OrdersController.getOrderHistoryByUserId);
+
 module.exports = router;

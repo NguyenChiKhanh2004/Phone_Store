@@ -10,6 +10,9 @@ const {
     getProductByMemory
 } = require('../models/productVariantModel');
 
+
+
+
 class ProductVariantController {
     async getAllVariants(req, res) {
         try {

@@ -95,14 +95,44 @@ const getOrdersByUserId = async (id) => {
 const createOrderDetail = async (userId, shippingAddress, billingAddress, notes, itemsJson, paymentMethod) => {
     const query = `CALL InsertCompleteOrder(?, ?, ?, ?, ?, ?);`;
     const [results] = await pool.execute(query, [
-        userId, 
-        shippingAddress, 
-        billingAddress, 
-        notes, 
+        userId,
+        shippingAddress,
+        billingAddress,
+        notes,
         itemsJson,  // Không cần stringify nếu đã là JSON hợp lệ
         paymentMethod
     ]);
     return results;
+};
+
+const getOrderHistoryByUserId = async (userId) => {
+    const query = `
+            SELECT 
+            o.id AS order_id,
+            o.order_date,
+            o.status AS order_status,
+            o.payment_status,
+            o.total,
+            o.shipping_address,
+            o.billing_address,
+            oi.quantity,
+            oi.price,
+            oi.subtotal,
+            pv.color,
+            pv.ram,
+            pv.rom,
+            pv.sku,
+            pv.image_url,
+            p.name AS product_name
+        FROM orders o
+        JOIN order_items oi ON o.id = oi.order_id
+        JOIN product_variants pv ON oi.variant_id = pv.id
+        JOIN products p ON pv.product_id = p.id
+        WHERE o.user_id = ?
+        ORDER BY o.order_date DESC;
+    `;
+    const [rows, fields] = await pool.execute(query, [userId]);
+    return rows;
 };
 
 module.exports = {
@@ -111,5 +141,6 @@ module.exports = {
     updateOrders,
     deleteOrders,
     getOrdersByUserId,
-    createOrderDetail
+    createOrderDetail,
+    getOrderHistoryByUserId
 };

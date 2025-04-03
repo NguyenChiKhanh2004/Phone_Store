@@ -70,7 +70,7 @@ export default function CartPage() {
         // Lưu các sản phẩm được chọn vào checkoutStorage
         setCheckoutItems(itemsForCheckout);
         // Chuyển hướng đến trang checkout
-        navigate('/checkout');
+        // navigate('/checkout');
     };
 
     return (
@@ -156,18 +156,18 @@ export default function CartPage() {
                         <div className="text-xl font-bold text-gray-800">
                             Total: ${totalPrice}
                         </div>
-                        {/* <button
+                        <button
                             onClick={handlePlaceOrder}
                             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
                         >
                             <ProtectedLink to="/checkout">Đặt hàng</ProtectedLink>
-                        </button> */}
-                        <ProtectedLink
+                        </button>
+                        {/* <ProtectedLink
                             to="/checkout"
                             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200"
                         >
                             Đặt hàng
-                        </ProtectedLink>
+                        </ProtectedLink> */}
 
                     </div>
                 </div>

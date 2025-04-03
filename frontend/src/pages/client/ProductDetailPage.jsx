@@ -6,6 +6,8 @@ import { addToCart } from '../../utils/cartStorage';
 import { FaStar } from 'react-icons/fa';
 import { getUser } from '../../utils/userStoage';
 
+import CustomModal from '../../components/CustomModal';
+
 const ProductDetailPage = () => {
     const { id } = useParams();
     const [data, setData] = useState(null); // chứa cả product và variants
@@ -17,6 +19,11 @@ const ProductDetailPage = () => {
     const [selectedVariant, setSelectedVariant] = useState(null);
     // State cho bình luận
     const [reviews, setReviews] = useState([]);
+
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+
 
     // Lấy thông tin user từ localStorage
     const user = getUser();
@@ -87,8 +94,12 @@ const ProductDetailPage = () => {
         };
 
         addToCart(cartItem);
-        alert(`Sản phẩm ${data.product.name} đã được thêm vào giỏ hàng!`);
+        // alert(`Sản phẩm ${data.product.name} đã được thêm vào giỏ hàng!`);
+
+        setModalMessage(`Sản phẩm ${product.name} đã được thêm vào giỏ hàng!`);
+        setIsModalOpen(true);
     };
+    
 
     const handleReviewInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -467,6 +478,11 @@ const ProductDetailPage = () => {
                     </div>
                 </div>
             </div>
+            <CustomModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                message={modalMessage}
+            />
         </div>
     );
 };
