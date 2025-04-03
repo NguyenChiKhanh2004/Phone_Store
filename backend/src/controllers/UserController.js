@@ -25,10 +25,11 @@ class UserController {
             return res.redirect('/auth/login');
         }
         // đăng nhập thành công
-        const currentUser = {
-            username: user[0].USERNAME,
-            email: user[0].EMAIL,
-            role: 'admin',
+        const currentUser ={
+            name: user[0].full_name,
+            username: user[0].phone,
+            email: user[0].email,
+            role: user[0].role,
         }
         const accessToken = auth.generateAccessToKen(currentUser);
         res.cookie('accessToken', accessToken, {

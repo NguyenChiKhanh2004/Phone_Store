@@ -8,7 +8,7 @@ dotenv.config();
 const port = 3000 || process.env.PORT;
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://localhost:8080'],
     credentials: true,
   }));
   
@@ -44,6 +44,22 @@ app.use(function(req,res,next){
     //return res.send('OK');
     next();
 });
+
+
+
+// const gemini = require('./src/utils/gemini');
+// const telbot = require('./src/utils/teleramBot');
+// telbot.on('message', async (msg) => {
+//     console.log(msg.chat.id);
+//     console.log(msg.text);
+//     const result = await gemini.generateContent(msg.text);
+//     telbot.sendMessage(msg.chat.id, result);
+//     // telbot.sendMessage(5250072664, 'Xin chào, tôi là bot, tôi có thể giúp gì cho bạn?');
+// });
+
+require('./src/utils/websocket');
+const chatRoutes = require('./src/routes/chatRoutes');
+app.use('/chat', chatRoutes);
 
 
 const userRoute = require('./src/routes/userRoute');

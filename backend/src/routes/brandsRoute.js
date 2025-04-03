@@ -7,7 +7,7 @@ const AuthMid = require('../middlewares/middleware');
 
 //Lấy tất cả brand
 //[GET] localhost:3000/brand
-router.get('/', AuthMid.authMiddleware, brandsController.getAllBrands);
+router.get('/', brandsController.getAllBrands);
 
 //tạo brand
 //[POST] localhost:3000/brand

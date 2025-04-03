@@ -16,6 +16,24 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
+const checkAuth = (req, res) => {
+    
+    const token = req.cookies.accessToken; // Lưu ý tên phải trùng
+
+    if (!token) {
+        return res.status(401).json({ message: "Chưa đăng nhập" });
+    }
+
+    const user = auth.verifyToken(token);
+
+    if (!user) {
+        return res.status(403).json({ message: "Token không hợp lệ" });
+    }
+
+    res.json({ message: "Đã xác thực", user });
+};
+
 module.exports={
-    authMiddleware
+    authMiddleware,
+    checkAuth
 }

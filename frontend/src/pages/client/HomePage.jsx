@@ -1,30 +1,46 @@
-// pages/Home.jsx
+// Home.jsx
 import React, { useState, useEffect } from 'react';
 import ProductComponent from '../../components/ProductComponent';
-import { getProducts } from '../../services/client/productService';
+import { getProducts, searchProducts, getProductsByBrand } from '../../services/client/productService';
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import BrandList from '../../components/BrandComponent';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // Thêm trạng thái loading
-  const [error, setError] = useState(null); // Thêm trạng thái lỗi
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const productsPerPage = 10;
+  const location = useLocation();
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const data = await getProducts();
+        const params = new URLSearchParams(location.search);
+        const brandQuery = params.get('brand');
+        const searchQuery = params.get('search');
+        let data;
+        if (brandQuery) {
+          data = await getProductsByBrand(brandQuery);
+        } else if (searchQuery) {
+          data = await searchProducts(searchQuery);
+        } else {
+          data = await getProducts();
+        }
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
-        setError('Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.'); // Hiển thị thông báo lỗi
+        setError('Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.');
       } finally {
-        setLoading(false); // Dừng loading dù có lỗi hay không
+        setLoading(false);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [location.search]);
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -48,8 +64,13 @@ const Home = () => {
     return <div className="text-center py-8 text-red-500">{error}</div>;
   }
 
+  if (products.length === 0) {
+    return <div className="text-center py-8">Không tìm thấy sản phẩm</div>;
+  }
+
   return (
     <div className="p-4 sm:p-8">
+      <BrandList />
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-8 auto-rows-fr">
         {getPaginatedProducts().map((product) => (
           <div key={product.id} className="flex flex-col min-h-[400px]">
@@ -64,10 +85,9 @@ const Home = () => {
           disabled={currentPage === 1}
           className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-300 transition duration-300"
         >
-          Trang trước
+          <FaArrowLeft size={20} />
         </button>
 
-        {/* Hiển thị số trang */}
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index + 1}
@@ -80,13 +100,12 @@ const Home = () => {
           </button>
         ))}
 
-        {/* Nút trang sau */}
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-300 transition duration-300"
         >
-          Trang sau
+          <FaArrowRight size={20} />
         </button>
       </div>
     </div>
