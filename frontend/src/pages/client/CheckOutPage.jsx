@@ -11,7 +11,7 @@ export default function CheckOutPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
-    userId: userID,
+    userId: userID || 1, // Lấy userId từ localStorage hoặc mặc định là 1
     shippingAddress: "",
     billingAddress: "",
     notes: "",
